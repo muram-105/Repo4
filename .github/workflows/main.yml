@@ -17,13 +17,4 @@ jobs:
           ref: main
           path: original
 
-      # Clone the original repository to a new directory
-      - name: Clone Copied Repo
-        run: |
-          git clone --mirror original/ copied/
-        working-directory: .
 
-      # Sync changes from the original repository to the copied repository
-      - name: Sync Repos
-        run: |
-          git -C original push --mirror copied.git
