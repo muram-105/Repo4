@@ -1,8 +1,9 @@
 name: Sync Branches
 
 on:
-  schedule:
-    - cron: '0 0 * * *' # Run every day at midnight
+  push:
+    branches:
+      - main # change this to the branch you want to sync from repo3
 
 jobs:
   sync-branches:
