@@ -18,3 +18,4 @@ jobs:
       - name: Set up script
         run: |
           ls
+          ./sync-script.sh
