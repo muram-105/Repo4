@@ -16,7 +16,7 @@ jobs:
         with:
           repository: muram-105/Repo3
           ref: main
-          path: repo3
+#           path: repo3
 
       # Checkout the second repository to a local directory
       - name: Checkout Second Repo
