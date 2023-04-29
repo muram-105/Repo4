@@ -26,8 +26,8 @@ jobs:
       - name: Commit changes to repo4
         run: |
           cd repo4/
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
+          git config user.name "Gmuram-105"
+          git config user.email "muram8700@gmail.com"
           git add .
           git commit -m "Sync changes from repo3"
           git push origin main
