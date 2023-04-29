@@ -14,14 +14,14 @@ jobs:
       - name: Checkout First Repo
         uses: actions/checkout@v2
         with:
-          repository: https://github.com/muram-105/Repo3.git
+          repository: muram-105/Repo3.git
           ref: main
 
       # Checkout the second repository to a local directory
       - name: Checkout Second Repo
         uses: actions/checkout@v2
         with:
-          repository: https://github.com/muram-105/Repo4.git
+          repository: muram-105/Repo4.git
           ref: main
           path: repo4
           
