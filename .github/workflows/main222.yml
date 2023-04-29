@@ -1,0 +1,17 @@
+name: Run shell script
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Run script
+        run: |
+          echo "Hello, world!"
+          echo "This is a shell script running in a GitHub Actions workflow."
