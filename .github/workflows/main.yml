@@ -22,3 +22,13 @@ jobs:
       - name: Set up script
         run: |
           ls
+          cp -r repo3/* repo4/
+      - name: Commit changes to repo4
+        run: |
+          cd repo4/
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Sync changes from repo3"
+          git push origin main
+
