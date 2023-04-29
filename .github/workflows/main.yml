@@ -1,34 +1,30 @@
 name: Sync Repos
 
-# Run the workflow on push events to the main branch
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the first repository to a local directory
-      - name: Checkout First Repo
+      - name: Checkout Repo3
         uses: actions/checkout@v2
         with:
-          repository: muram-105/Repo3.git
+          repository: muram-105/Repo3
+          ref: main
+      
+      - name: Checkout Repo4
+        uses: actions/checkout@v2
+        with:
+          repository: muram-105/Repo4
           ref: main
 
-      # Checkout the second repository to a local directory
-      - name: Checkout Second Repo
-        uses: actions/checkout@v2
-        with:
-          repository: muram-105/Repo4.git
-          ref: main
-          path: repo4
-          
-      # Sync changes from the second repository to the first repository
       - name: Sync Repos
         run: |
-          cd ~/Repo3
-          git remote add Repo4 ../Repo4 
-          git pull Repo4 main 
-          git push origin main 
+          cd Repo4
+          git pull origin main
+          cd ../Repo3
+          git add .
+          git commit -m "Sync with Repo4"
+          git push origin main
