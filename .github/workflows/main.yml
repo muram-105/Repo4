@@ -2,29 +2,30 @@ name: Sync Repos
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
+      # Checkout the first repository
       - name: Checkout Repo3
         uses: actions/checkout@v2
         with:
           repository: muram-105/Repo3
           ref: main
-      
+
+      # Checkout the second repository
       - name: Checkout Repo4
         uses: actions/checkout@v2
         with:
           repository: muram-105/Repo4
           ref: main
 
+      # Sync changes from the first repository to the second repository
       - name: Sync Repos
         run: |
-          cd Repo4
-          git pull origin main
-          cd ../Repo3
-          git add .
-          git commit -m "Sync with Repo4"
-          git push origin main
+          git -C Repo4 pull origin main
+          git -C Repo4 merge Repo3/main
+          git -C Repo4 push origin main
