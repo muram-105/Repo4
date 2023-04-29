@@ -7,7 +7,7 @@ git checkout main
 
 git config --global user.email "muram8700@gmail.com"
 git config --global user.name "muram-105"
-git remote add Repo4 https://github.com/muram-105/Repo4.git
+git remote add Repo4 muram-105/Repo4.git
 
 git fetch Repo4 main
 git commit -m "add changes"
