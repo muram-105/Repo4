@@ -15,7 +15,7 @@ jobs:
         with:
           repository: muram-105/Repo3
           ref: main
-          path: original
+          path: Repo3
 
       # Clone the original repository to a new directory
       - name: Clone Copied Repo
