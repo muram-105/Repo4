@@ -22,7 +22,7 @@ jobs:
       - name: Set up script
         run: |
           ls
-          cp -r account_pdcs/* repo4/
+          cp -r account_pdcs/* repo4/main
       - name: Commit changes to repo4
         run: |
           cd repo4/
