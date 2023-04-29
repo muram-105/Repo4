@@ -4,7 +4,7 @@ cd Repo3
 
 git checkout main
 
-# git remote add target-repo https://github.com/muram-105/Repo4.git
+git remote add Repo4 https://github.com/muram-105/Repo4.git
 
 # git fetch Repo4 main
 
