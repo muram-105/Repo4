@@ -9,30 +9,26 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      # Create a new repository with the same content as Repo3
-      - name: Create Repo4
-        uses: peter-evans/create-pull-request@v3
+      # Checkout the first repository to a local directory
+      - name: Checkout First Repo
+        uses: actions/checkout@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Initial commit"
-          title: "Create Repo4"
-          body: "This pull request creates a new repository with the same content as Repo3"
-          branch: main
-          branch-suffix: "-copy"
-          delete-branch: true
-          target: muram-105
-          changes: |
-            mkdir Repo4
-            cd Repo4
-            git init
-            git remote add origin https://github.com/muram-105/Repo4.git
-            git pull https://github.com/muram-105/Repo3.git main
+          repository: muram-105/Repo3
+          ref: main
+          path: Repo3
 
-      # Push changes to Repo4
-      - name: Push to Repo4
-        uses: ad-m/github-push-action@master
+      # Checkout the second repository to a local directory
+      - name: Checkout Second Repo
+        uses: actions/checkout@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
-          force: true
-          directory: ./Repo4
+          repository: muram-105/Repo4
+          ref: main
+          path: Repo4
+
+      # Sync changes from the first repository to the second repository
+      - name: Sync Repos
+        run: |
+          cd repo1
+          git remote add Repo4 ../Repo4
+          git pull Repo4 main 
+          git push origin main 
