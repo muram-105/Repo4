@@ -11,8 +11,7 @@ git remote add target https://github.com/muram-105/Repo4.git
 
 git fetch origin main
 
-# git commit -m "add changes"
-
+git commit -a -m "commit message"
 git merge origin/main
 git push target main
 
