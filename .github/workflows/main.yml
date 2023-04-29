@@ -26,6 +26,6 @@ jobs:
       # Sync changes from the first repository to the second repository
       - name: Sync Repos
         run: |
-          git -C https://github.com/muram-105/Repo4 pull origin main
+          git -C http://github.com/muram-105/Repo4 pull origin main
           git -C Repo4 merge Repo3/main
           git -C Repo4 push origin main
