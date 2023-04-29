@@ -14,7 +14,10 @@ jobs:
         with:
           repository: muram-105/Repo4
           ref: main
-
+      - name: Set execute permission on sync script
+        run: chmod +x sync-script.sh
+        
+        
       - name: Set up script
         run: |
           ls
