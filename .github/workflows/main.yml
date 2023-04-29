@@ -1,4 +1,4 @@
-name: Sync Repos
+name: Sync Repositories
 
 on:
   push:
@@ -9,26 +9,21 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the first repository to a local directory
-      - name: Checkout First Repo
+      - name: Checkout First Repository
         uses: actions/checkout@v2
         with:
           repository: muram-105/Repo3
           ref: main
-          path: Repo3
 
-      # Checkout the second repository to a local directory
-      - name: Checkout Second Repo
+      - name: Checkout Second Repository
         uses: actions/checkout@v2
         with:
           repository: muram-105/Repo4
           ref: main
-          path: Repo4
+          path: ../Repo4
 
-      # Sync changes from the first repository to the second repository
-      - name: Sync Repos
+      - name: Sync Repositories
         run: |
-          cd repo1
-          git remote add Repo4 ../Repo4
-          git pull Repo4 main 
-          git push origin main 
+          git -C ../Repo4 remote add upstream ../Repo3
+          git -C ../Repo4 pull upstream main --no-edit
+          git -C ../Repo4 push origin main
