@@ -1,72 +1,38 @@
 name: Sync Repos
 
-# Run the workflow on push events to the main branch of the original repository
 on:
   push:
     branches:
       - main
-    paths:
-      - 'path/to/repo3/**' # Replace with the actual path to the original repository
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the original repository to a local directory
-      - name: Checkout Original Repo
-        uses: actions/checkout@v2
+      # Create a new repository with the same content as Repo3
+      - name: Create Repo4
+        uses: peter-evans/create-pull-request@v3
         with:
-          repository: muram-105/Repo3
-          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Initial commit"
+          title: "Create Repo4"
+          body: "This pull request creates a new repository with the same content as Repo3"
+          branch: main
+          branch-suffix: "-copy"
+          delete-branch: true
+          target: muram-105
+          changes: |
+            mkdir Repo4
+            cd Repo4
+            git init
+            git remote add origin https://github.com/muram-105/Repo4.git
+            git pull https://github.com/muram-105/Repo3.git main
 
-      # Checkout the copy repository to a local directory
-      - name: Checkout Copy Repo
-        uses: actions/checkout@v2
+      # Push changes to Repo4
+      - name: Push to Repo4
+        uses: ad-m/github-push-action@master
         with:
-          repository: muram-105/Repo4
-          ref: main
-          path: copy-repo
-
-      # Sync changes from the original repository to the copy repository
-      - name: Sync Repos
-        run: |
-          cd Repo3
-          git remote add copy ../copy-repo 
-          git pull copy main 
-          git push origin main 
-name: Sync Repos
-
-# Run the workflow on push events to the main branch of the original repository
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'path/to/repo3/**' # Replace with the actual path to the original repository
-
-jobs:
-  sync:
-    runs-on: ubuntu-latest
-    steps:
-      # Checkout the original repository to a local directory
-      - name: Checkout Original Repo
-        uses: actions/checkout@v2
-        with:
-          repository: muram-105/Repo3
-          ref: main
-
-      # Checkout the copy repository to a local directory
-      - name: Checkout Copy Repo
-        uses: actions/checkout@v2
-        with:
-          repository: muram-105/Repo4
-          ref: main
-          path: copy-repo
-
-      # Sync changes from the original repository to the copy repository
-      - name: Sync Repos
-        run: |
-          cd Repo3
-          git remote add copy ../copy-repo 
-          git pull copy main 
-          git push origin main 
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          force: true
+          directory: ./Repo4
