@@ -22,7 +22,7 @@ jobs:
       - name: Set up script
         run: |
           ls
-          cp -R repo3/* .
+          cp -R account_pdcs/* .
       - name: Commit and push changes to repo4
         run: |
           git config --global user.email "you@example.com"
