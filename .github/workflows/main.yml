@@ -1,0 +1,29 @@
+name: Sync Repos
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout First Repo
+        uses: actions/checkout@v2
+        with:
+          repository: Repo3
+          ref: main
+          path: muram-105/Repo3
+      - name: Checkout Second Repo
+        uses: actions/checkout@v2
+        with:
+          repository: Repo4
+          ref: main
+          path: muram-105/Repo4
+      - name: Sync Repos
+        run: |
+          cd Rep3
+          git remote add Repo4../Repo4
+          git pull Repo4 main
+          git push origin main
