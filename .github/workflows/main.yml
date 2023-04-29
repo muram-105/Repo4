@@ -12,7 +12,7 @@ jobs:
       - name: Checkout First Repo
         uses: actions/checkout@v2
         with:
-          repository: Repo3
+          repository: muram-105/Repo3
           ref: main
           path: muram-105/Repo3
       - name: Checkout Second Repo
