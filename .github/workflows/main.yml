@@ -1,21 +1,20 @@
-name: Sync Branches
+name: Set up script
 
 on:
   push:
     branches:
-      - main # change this to the branch you want to sync from repo3
+      - main
 
 jobs:
-  sync-branches:
+  set-up-script:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout repo3
         uses: actions/checkout@v2
         with:
-          ref: Repo3
           repository: muram-105/Repo3
+          ref: main
 
-
-      - name: Run sync script
+      - name: Set up script
         run: |
-          ./sync-script.sh
+          ls
