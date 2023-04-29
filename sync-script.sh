@@ -13,8 +13,7 @@ git fetch origin main
 
 # git commit -m "add changes"
 
-# git merge Repo4/main
-# git push origin main
-
+git merge origin/main
+git push origin main
 # cd ..
 # rm -rf Repo3
