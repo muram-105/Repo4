@@ -13,7 +13,7 @@ git fetch origin main
 
 git commit -a -m "commit message"
 git merge origin/main
-git push main main
+git push
 
 # cd ..
 # rm -rf Repo3
