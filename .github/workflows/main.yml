@@ -15,18 +15,15 @@ jobs:
         with:
           repository: muram-105/Repo3
           ref: main
-          path: Repo3
+          path: original
 
       # Clone the original repository to a new directory
       - name: Clone Copied Repo
         run: |
-          git clone --mirror Repo3/ Repo4/
+          git clone --mirror original/ copied/
         working-directory: .
-        
-      # Sync changes from the Repo3 repository to the copied repository
+
+      # Sync changes from the original repository to the copied repository
       - name: Sync Repos
         run: |
-          cd copied.git
-          git remote set-url origin ../Repo4
-          git fetch -p origin 
-          git push --mirror
+          git -C original push --mirror copied.git
