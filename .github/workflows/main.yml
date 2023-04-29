@@ -22,11 +22,3 @@ jobs:
       - name: Set up script
         run: |
           ls
-          cp -R account_pdcs/* .
-      - name: Commit and push changes to repo4
-        run: |
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
-          git add .
-          git commit -m "Update contents from repo3"
-          git push
