@@ -1,4 +1,4 @@
-name: Sync Repos
+name: Set up script
 
 on:
   push:
@@ -6,26 +6,19 @@ on:
       - main
 
 jobs:
-  sync:
+  set-up-script:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the first repository
-      - name: Checkout Repo3
+      - name: Checkout repo3
         uses: actions/checkout@v2
         with:
-          repository: muram-105/Repo3
+          repository: muram-105/repo3
           ref: main
 
-      # Checkout the second repository
-      - name: Checkout Repo4
-        uses: actions/checkout@v2
-        with:
-          repository: muram-105/Repo4
-          ref: main
-
-      # Sync changes from the first repository to the second repository
-      - name: Sync Repos
+      - name: Install script dependencies
         run: |
-          git -C http://github.com/muram-105/Repo4 pull origin main
-          git -C Repo4 merge Repo3/main
-          git -C Repo4 push origin main
+          # Install dependencies for your script here
+
+      - name: Set up script
+        run: |
+          ls
