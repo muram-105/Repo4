@@ -8,7 +8,7 @@ git checkout main
 
 git config --global user.email "muram8700@gmail.com"
 git config --global user.name "muram-105"
-git remote add origin https://github.com/muram-105/Repo4.git
+git remote add main https://github.com/muram-105/Repo4.git
 git remote -v
 
 git fetch origin main
