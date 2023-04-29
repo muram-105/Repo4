@@ -2,7 +2,7 @@
 git clone https://github.com/muram-105/Repo3.git
 # cd Repo3
 
-# git checkout Rep3
+git checkout main
 
 # git remote add target-repo https://github.com/muram-105/Repo4.git
 
