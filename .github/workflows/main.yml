@@ -1,37 +1,19 @@
-name: Set up script
+name: Sync Branches
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '0 0 * * *' # Run every day at midnight
 
 jobs:
-  set-up-script:
+  sync-branches:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo3
+      - name: Checkout code
         uses: actions/checkout@v2
         with:
-          repository: muram-105/repo3
-          ref: main
+          ref: Repo3
+          repository: muram-105/Repo3
 
-      - name: Install script dependencies
+      - name: Run sync script
         run: |
-          # Install dependencies for your script here
-      - name: Create repo4 directory
-        run: mkdir repo4
-        
-        
-      - name: Set up script
-        run: |
-          ls
-          cp -r account_pdcs/* repo4/
-      - name: Commit changes to repo4
-        run: |
-          cd repo4/
-          git config user.name "Gmuram-105"
-          git config user.email "muram8700@gmail.com"
-          git add .
-          git commit -m "Sync changes from repo3"
-          git push origin main
-
+          ./sync-script.sh
