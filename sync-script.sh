@@ -9,8 +9,9 @@ git config --global user.email "muram8700@gmail.com"
 git config --global user.name "muram-105"
 git remote add main https://github.com/muram-105/Repo4.git
 
-# git fetch Repo4 main
-# git commit -m "add changes"
+git fetch origin main
+
+git commit -m "add changes"
 
 # git merge Repo4/main
 # git push origin main
