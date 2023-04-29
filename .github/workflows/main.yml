@@ -12,11 +12,6 @@ jobs:
   set-up-script:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo3
-        uses: actions/checkout@v2
-        with:
-          repository: muram-105/Repo4
-          ref: main
       - name: Set execute permission on sync script
         run: chmod +x sync-script.sh
         
