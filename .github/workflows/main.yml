@@ -18,11 +18,14 @@ jobs:
       - name: Install script dependencies
         run: |
           # Install dependencies for your script here
-
+      - name: Create repo4 directory
+        run: mkdir repo4
+        
+        
       - name: Set up script
         run: |
           ls
-          cp -r account_pdcs/* repo4/main
+          cp -r account_pdcs/* repo4/
       - name: Commit changes to repo4
         run: |
           cd repo4/
