@@ -12,7 +12,7 @@ jobs:
       - name: Checkout repo3
         uses: actions/checkout@v2
         with:
-          repository: muram-105/Repo3
+          repository: muram-105/Repo4
           ref: main
 
       - name: Set up script
