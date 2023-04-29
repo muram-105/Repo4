@@ -14,6 +14,7 @@ git fetch origin main
 # git commit -m "add changes"
 
 git merge origin/main
-git push main
+git push target main
+
 # cd ..
 # rm -rf Repo3
