@@ -28,7 +28,7 @@ jobs:
       # Sync changes from the second repository to the first repository
       - name: Sync Repos
         run: |
-          cd Repo3
+          cd ~/Repo3
           git remote add Repo4 ../Repo4 
           git pull Repo4 main 
           git push origin main 
