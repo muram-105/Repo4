@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="loan_type_tree_view" model="ir.ui.view">
+            <field name="name">hr.loan.type.tree</field>
+            <field name="model">hr.loan.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Loan Types">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="loan_type_form_view" model="ir.ui.view">
+            <field name="name">hr.loan.type.form</field>
+            <field name="model">hr.loan.type</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Loan Types">
+                    <sheet>
+                        <group col="2" colspan="2">
+                            <field name="name"/>
+                            <field name="months"/>
+                            <field name="one_time_loan"/>
+                            <field name="interest_rate"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_loan_type_tree_view" model="ir.actions.act_window">
+            <field name="name">Loan Types</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.loan.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="loan_type_tree_view"/>
+        </record>
+
+        <menuitem id="loan_type_menu" name="Loan Type"
+                  groups="hr.group_hr_user"
+                  parent="approvals.approvals_menu_config"
+                  action="action_loan_type_tree_view"/>
+    </data>
+</odoo>

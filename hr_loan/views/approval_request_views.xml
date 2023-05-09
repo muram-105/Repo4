@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="loan_request_tree_view" model="ir.ui.view">
+            <field name="name">loan.request.tree</field>
+            <field name="model">approval.request</field>
+            <field name="arch" type="xml">
+                <tree default_order="name desc">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="type_id"/>
+                    <field name="date_confirmed"/>
+                    <field name="date_start" optional="hide"/>
+                    <field name="date_end" optional="hide"/>
+                    <field name="number_months" optional="hide"/>
+                    <field name="amount" sum="total_amount" optional="hide"/>
+                    <field name="total_amount" sum="total_total_amount"/>
+                    <field name="balance" sum="total_balance"/>
+                    <field name="request_status"/>
+                </tree>
+            </field>
+        </record>
+        <record id="loan_approval_request" model="ir.ui.view">
+            <field name="name">Loan Approval Request From</field>
+            <field name="model">approval.request</field>
+            <field name="inherit_id" ref="approvals.approval_request_view_form"/>
+            <field name="arch" type="xml">
+                <button name="action_approve" position="attributes">
+                    <attribute name="class">btn-primary</attribute>
+                </button>
+
+                <button name="action_get_attachment_view" position="after">
+                    <field name='has_receipt_voucher' invisible="1"/>
+                    <button type="action" class="oe_stat_button"
+                            id="payment_order" icon="fa-pencil"
+                            name="%(act_hr_loan_outbound_payment_list)d"
+                            groups="account.group_account_user"
+                            attrs="{'invisible': [('payment_id', '=', False )]}">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Payment</span>
+                        </div>
+                    </button>
+                    <button type="action" class="oe_stat_button"
+                            id="receipt_voucher" icon="fa-pencil"
+                            name="%(act_hr_loan_inbound_payment_list)d"
+                            groups="account.group_account_user"
+                            attrs="{'invisible': [('has_receipt_voucher', '!=', True )]}">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Receipts</span>
+                        </div>
+                    </button>
+                </button>
+                <xpath expr="//header" position="inside">
+                    <button string="Receipt Voucher"
+                            attrs="{'invisible':[('request_status','!=','approved')]}"
+                            type="action" name="%(receipt_voucher_action)d"/>
+                    <field name="hr_admin" invisible="1"/>
+                </xpath>
+                <field name="name" position="attributes">
+                    <attribute name="force_save">True</attribute>
+                </field>
+                <field name="date_end" position="attributes">
+                    <attribute name="attrs">{'required':
+                        [('has_period','==','required')],
+                        'readonly':['|',('approval_type','==','loan'),
+                        ('request_status','not in',('new', 'pending'))]}
+                    </attribute>
+                    <attribute name="force_save">1</attribute>
+                </field>
+                <field name="category_id" position="attributes">
+                    <attribute name="attrs">{'invisible':[('approval_type','=','loan')]}
+                    </attribute>
+                </field>
+                <field name="category_id" position="after">
+                    <field name="approval_type" invisible="1"/>
+                    <field name="type_id"
+                           options="{'no_create': True,'no_quick_create': True, 'no_create_edit': True,'no_open': True}"
+                           attrs="{'readonly':[('request_status','not in',('pending','new'))],'invisible':[('approval_type','!=','loan')]}"/>
+                </field>
+
+                <field name="request_owner_id" position="replace">
+                    <field name="employee_id" force_save="1"
+                           attrs="{'readonly':['|',('hr_admin','=',False),('request_status','not in',('pending','new'))],'invisible':[('approval_type','!=','loan')],'required':[('approval_type','=','loan')]}"
+                           options="{'no_create': True,'no_quick_create': True, 'no_create_edit': True,'no_open': True}"/>
+                    <field name="contract_id" force_save="1"
+                           domain="[('employee_id','=',employee_id),('state','=','open')]"
+                           attrs="{'readonly':1,'invisible':[('approval_type','!=','loan')],'required':[('approval_type','=','loan')]}"
+                           options="{'no_create': True,'no_quick_create': True, 'no_create_edit': True,'no_open': True}"/>
+                    <field name="depart_id" force_save="1"
+                           attrs="{'readonly':1,'invisible':[('approval_type','!=','loan')]}"
+                           options="{'no_create': True,'no_quick_create': True,'no_open': True, 'no_create_edit': True}"/>
+
+                </field>
+                <group name="request_details" position="inside">
+                    <field name="total_amount"
+                           attrs="{'invisible':[('approval_type','!=','loan')]}"
+                           force_save="True"/>
+                    <field name="number_months"
+                           attrs="{'readonly':[('request_status','not in',('pending','new'))],'invisible':[('approval_type','!=','loan')]}"/>
+                    <field name="is_generated" invisible="1"/>
+                    <field name="payment_id" invisible="1"/>
+                    <field name="refuse_reason"
+                           attrs="{'readonly':[('request_status','not in',('pending','new'))],'invisible':[('approval_type','!=','loan')]}"
+                           groups="hr.group_hr_manager"/>
+                </group>
+                <page name='description' position="before">
+                    <page string="Payments"
+                          attrs="{'invisible':[('approval_type','!=','loan')]}">
+                        <group string="Payments for Loan">
+                            <div>
+                                <button string="Populate" icon="fa-arrow-circle-o-down"
+                                        name="generate_months" type="object" groups="hr.group_hr_user"
+                                        attrs="{'invisible': ['|',('request_status','not in',('pending','new')),('is_generated', '=', True )]}">
+
+                                </button>
+                                <button string="Clean" icon="fa-ban" name="clean_months"
+                                        type="object" groups="hr.group_hr_user"
+                                        attrs="{'invisible': ['|',('request_status','not in',('new','pending')),('is_generated', '=', False )]}">
+                                </button>
+                            </div>
+
+                            <field name="loan_line_ids" nolabel="1" colspan="4">
+                                <tree editable="bottom">
+                                    <field name="discount_date"
+                                           attrs="{'readonly':[('is_settled','=',True)]}"/>
+                                    <field name="amount" sum="Total"
+                                           attrs="{'readonly':[('is_settled','=',True)]}"/>
+                                    <field name="remaining_amount"/>
+                                    <field name="is_settled" sum="Total"/>
+
+                                </tree>
+                            </field>
+                            <group col="2">
+                                <field name="balance"
+                                       invisible="not context.get('is_loan_page',False)"/>
+                            </group>
+                        </group>
+                    </page>
+
+                </page>
+
+            </field>
+        </record>
+        <record id="loan_approval_request_search" model="ir.ui.view">
+            <field name="name">Loan Approval Request From</field>
+            <field name="model">approval.request</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="approvals.approval_search_view_search"/>
+            <field name="arch" type="xml">
+                <filter name="filter_approvals_to_review" position="after">
+                    <filter string="Loan Requests" name="filter_loan_requests"
+                            domain="[('approval_type', '=', 'loan')]"/>
+                    <filter string="Employee" name="groupby_employee_id"
+                            domain="[]" context="{'group_by': 'employee_id'}"/>
+                    <filter string="Request Status"
+                            name="groupby_request_status" domain="[]"
+                            context="{'group_by': 'request_status'}"/>
+                </filter>
+            </field>
+        </record>
+
+        <record id="action_my_hr_loan_tree_view" model="ir.actions.act_window">
+            <field name="name">My Loans</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">approval.request</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="context"
+                   eval="{'create':False,'edit':False,'is_loan_page':True,'default_approval_type':'loan','default_category_id':ref('hr_loan.approval_category_data_loan')}">
+            </field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                       	  (0, 0, {'view_mode': 'tree', 'view_id': ref('loan_request_tree_view')}),]"/>
+            <field name="search_view_id" ref="loan_approval_request_search"/>
+            <field name="domain">[('approval_type','=','loan'),('employee_id.user_id','=',uid)]</field>
+        </record>
+
+        <record id="approvals.approval_request_action" model="ir.actions.act_window">
+            <field name="domain">['|',('request_owner_id','=',uid),('employee_id.user_id','=',uid)]</field>
+        </record>
+
+        <record id="action_all_hr_loan_tree_view" model="ir.actions.act_window">
+            <field name="name">All Loans</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">approval.request</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="context"
+                   eval="{'create':False,'write':False,'is_loan_page':True,'default_approval_type':'loan','default_category_id':ref('hr_loan.approval_category_data_loan')}">
+            </field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                       	  (0, 0, {'view_mode': 'tree', 'view_id': ref('loan_request_tree_view')}),]"/>
+            <field name="search_view_id" ref="loan_approval_request_search"/>
+            <field name="domain">[('approval_type','=','loan')]</field>
+        </record>
+
+        <menuitem id="my_hr_loan_menu_approval"
+                  name="My Loans"
+                  groups="base.group_user"
+                  parent="approvals.approvals_approval_menu"
+                  sequence="86"
+                  action="action_my_hr_loan_tree_view"/>
+
+        <menuitem id="all_hr_loan_menu_approval"
+                  name="All Loans"
+                  groups="base.group_user"
+                  parent="approvals.approvals_menu_manager"
+                  sequence="86"
+                  action="action_all_hr_loan_tree_view"/>
+    </data>
+</odoo>

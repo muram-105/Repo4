@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="payment_form_view" model="ir.ui.view">
+            <field name="name">account.payment.form</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                <field name="payment_type" position="after">
+                    <field name="loan_id" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="act_hr_loan_outbound_payment_list" model="ir.actions.act_window">
+            <field name="res_model">account.payment</field>
+            <field name="name">Payments</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('loan_id','=', active_id),('payment_type','=', 'outbound')]</field>
+        </record>
+
+        <record id="act_hr_loan_inbound_payment_list" model="ir.actions.act_window">
+            <field name="res_model">account.payment</field>
+            <field name="name">Payments</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('loan_id','=', active_id),('payment_type','=', 'inbound')]</field>
+        </record>
+    </data>
+</odoo>
